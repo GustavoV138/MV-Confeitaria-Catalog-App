@@ -2,6 +2,7 @@ package com.gustavovs.mvconfeitariacatalogapp.ui.screens.editor
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,9 +14,12 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +52,7 @@ fun CakeEditorScreen(
     }
 
     val isEditMode = viewModel.id != null
+    val dummyFocusRequester = remember { FocusRequester() }
 
     // Palette: Sweet colors
     val primaryGold = Color(0xFFD4AF37)
@@ -161,6 +166,14 @@ fun CakeEditorScreen(
                     colors = CardDefaults.cardColors(containerColor = Color.White),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
+                    // Invisible element to absorb automatic focus, preventing the search bar from stealing it
+                    Box(
+                        modifier = Modifier
+                            .size(1.dp)
+                            .focusRequester(dummyFocusRequester)
+                            .focusable()
+                    )
+
                     Column(
                         modifier = Modifier.padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)

@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
+import kotlin.time.Duration.Companion.milliseconds
 
 class CatalogViewModel(
     private val repository: CakeRepository = CakeRepository()
@@ -76,21 +77,20 @@ class CatalogViewModel(
         if (cakes.isEmpty()) return "Nenhum bolo cadastrado no catálogo atualmente."
 
         val sb = StringBuilder()
-        sb.append("🍰 -MV CONFEITARIA - NOSSO CARDÁPIO- 🍰\n\n")
-        sb.append("Olá! Veja as nossas deliciosas opções de bolos disponíveis:\n\n")
+        sb.append("🍰 -MV CONFEITARIA - CARDÁPIO- 🍰\n\n")
+        sb.append("Opções disponiveis:\n\n")
 
         val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
 
         cakes.forEach { cake ->
             sb.append("${cake.title} - (Rende até ${cake.slices} fatias.)\n")
             if (!cake.description.isNullOrBlank()) {
-                sb.append("📝 - ${cake.description}\n")
+                sb.append("📝 - ${cake.description}\n\n")
             }
             sb.append("💵 Preço: ${currencyFormatter.format(cake.price)}\n")
             sb.append("----------------------------\n\n")
         }
 
-        sb.append("Faça seu pedido conosco! ✨")
         return sb.toString()
     }
 }

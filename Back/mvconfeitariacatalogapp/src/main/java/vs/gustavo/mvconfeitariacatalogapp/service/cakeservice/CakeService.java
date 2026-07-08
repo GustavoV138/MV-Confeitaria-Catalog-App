@@ -57,28 +57,28 @@ public class CakeService {
         cakeRepository.delete(cake.get());
     }
 
-    public Cake updateCake(Long id, Cake cakeDetails) {
-        Optional<Cake> existingCakeOpt = cakeRepository.findById(id);
-        if (existingCakeOpt.isEmpty()) {
+    public Cake updateCake(Long id, Cake cake) {
+        Optional<Cake> cakeFoundById = cakeRepository.findById(id);
+        if (cakeFoundById.isEmpty()) {
             throw new RuntimeException("Bolo não encontrado.");
         }
 
-        Cake existingCake = existingCakeOpt.get();
+        Cake existingCake = cakeFoundById.get();
 
-        List<Optional<Cake>> cakeByTitle = cakeRepository.findCakeByTitle(cakeDetails.getTitle());
+        List<Optional<Cake>> cakeByTitle = cakeRepository.findCakeByTitle(cake.getTitle());
         cakeByTitle.stream()
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .forEach(c -> {
-                    if (!c.getId().equals(id) && c.getTitle().equals(cakeDetails.getTitle()) && c.getSlices().equals(cakeDetails.getSlices())) {
+                    if (!c.getId().equals(id) && c.getTitle().equals(cake.getTitle()) && c.getSlices().equals(cake.getSlices())) {
                         throw new RuntimeException("Este item já foi adicionado.");
                     }
                 });
 
-        existingCake.setTitle(cakeDetails.getTitle());
-        existingCake.setDescription(cakeDetails.getDescription());
-        existingCake.setSlices(cakeDetails.getSlices());
-        existingCake.setPrice(cakeDetails.getPrice());
+        existingCake.setTitle(cake.getTitle());
+        existingCake.setDescription(cake.getDescription());
+        existingCake.setSlices(cake.getSlices());
+        existingCake.setPrice(cake.getPrice());
 
         return cakeRepository.save(existingCake);
     }
