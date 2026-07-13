@@ -1,6 +1,11 @@
 package vs.gustavo.mvconfeitariacatalogapp.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -10,12 +15,21 @@ public class Cake {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
+    @NotBlank(message = "Um título deve ser informado.")
+    @Size(min = 4, message = "O título deve ter no mínimo 4 caracteres.")
     private String title;
+
     private String description;
+
     @Column(nullable = false)
+    @NotBlank(message = "A quantidade de fatias deve ser informado.")
+    @Min(1)
     private Integer slices;
+
     @Column(nullable = false)
+    @NotBlank(message = "O preço deve ser informado.")
     private BigDecimal price;
 
     public Cake() {}

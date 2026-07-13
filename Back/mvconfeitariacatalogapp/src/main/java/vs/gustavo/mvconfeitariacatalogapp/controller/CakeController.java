@@ -1,5 +1,6 @@
 package vs.gustavo.mvconfeitariacatalogapp.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class CakeController {
     }
 
     @PostMapping("/cake")
-    public ResponseEntity<Cake> createCake(@RequestBody Cake cake) {
+    public ResponseEntity<Cake> createCake(@RequestBody @Valid Cake cake) {
         Cake cakeCreated = cakeService.createCake(cake);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(cakeCreated);
@@ -46,7 +47,7 @@ public class CakeController {
     }
 
     @PutMapping("/cake/{id}")
-    public ResponseEntity<Cake> updateCake(@PathVariable Long id, @RequestBody Cake cake) {
+    public ResponseEntity<Cake> updateCake(@PathVariable Long id, @RequestBody @Valid Cake cake) {
         Cake updatedCake = cakeService.updateCake(id, cake);
         return ResponseEntity.ok(updatedCake);
     }
